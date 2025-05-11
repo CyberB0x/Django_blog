@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Список постов</title>
+</head>
+<body>
+  <h1>Добро пожаловать в блог!</h1>
+
+    {% if user.is_authenticated %}
+        <p>Вы вошли как <strong>{{ user.username }}</strong>. <a href="{% url 'logout' %}">Выйти</a></p>
+        <p><a href="{% url 'create_post' %}">Создать новый пост</a></p>
+    {% else %}
+        <p><a href="{% url 'login' %}">Войти</a></p>
+    {% endif %}
+
+    <hr>
+
+    {% for post in posts %}
+        <h2>{{ post.title }}</h2>
+        <p>{{ post.content|truncatewords:20 }}</p>
+        <a href="{% url 'post_detail' post.id %}">Читать полностью</a>
+        <hr>
+    {% empty %}
+        <p>Нет доступных постов.</p>
+    {% endfor %}
+</body>
+</html>
